@@ -1,7 +1,13 @@
 <template>
   <div id="app">
-    <img v-if="displayLogo" alt="Vue logo" src="./assets/logo.png">
-    <img v-else alt="Vue logo" src="./assets/logo2.png">
+    <template v-if="displayVueLogo">
+      <p>This is Vue logo.</p>
+      <img alt="Vue logo" src="./assets/logo.png">
+    </template>
+    <template v-else>
+      <p>This is GitHub logo.</p>
+      <img alt="Vue logo" src="./assets/logo2.png">
+    </template>
     <LikeNumber :total-number="number" @my-click="incrementNumber" @my-click2="incrementNumber2"></LikeNumber>
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
@@ -16,7 +22,7 @@ export default Vue.extend({
   name: 'App',
   data() {
     return {
-      displayLogo: true,
+      displayVueLogo: true,
       number: 14
     };
   },
