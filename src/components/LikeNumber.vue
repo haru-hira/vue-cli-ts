@@ -12,7 +12,8 @@ export default Vue.extend({
   name: 'LikeNumber',
   props: { 
     totalNumber: {
-      type: Number
+      type: Number,
+      required: true
     }
   },
   computed: {
