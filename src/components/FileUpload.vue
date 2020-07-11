@@ -38,16 +38,37 @@ export default Vue.extend({
             }
           })
           .then(() => {
-            alert("upload: success!");
-            return true;
+            axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
+              isSuccess: true,
+              fileName: file.name,
+              contentType: file.type
+            })
+            .then(() => {
+              alert("upload: success!");
+              return true;
+            })
+            .catch((e2) => {
+              // アップロードできたが通知に失敗した場合
+              alert(e2);
+              return false
+            });
           })
-          .catch((e) => {
-            alert(e);
-            return false;
+          .catch((e2) => {
+            axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
+              isSuccess: false
+            })
+            .then(() => {
+              alert(e2);
+              return false;
+            })
+            .catch((e3) => {
+              alert(e3);
+              return false
+            });
           });
         })
-        .catch((e) => {
-          alert(e);
+        .catch((e1) => {
+          alert(e1);
           return false
         });
       }
