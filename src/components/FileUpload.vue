@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import axios from 'axios';
 
 export default Vue.extend({
   name: 'FileUpload',
@@ -21,23 +22,35 @@ export default Vue.extend({
         return false;
       }
 
-      // 1つ目のファイルを取得する
+      // 1つ目のファイルを取得する(非multiple)
       const file = files[0];
-
-      // 選択されたファイル名を出力
-      const filename = file.name;
-      console.log(`選択されたファイル名:${filename}`);
 
       // readerのresultプロパティに、データURLとしてエンコードされたファイルデータを格納
       const reader = new FileReader();
       reader.readAsDataURL(file);
-    
       reader.onload = function() {
-        console.log( reader.result );
+        // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
+        axios.get('http://localhost:80/document/init-upload')
+        .then((res) => {
+          axios.put(res.data.s3PresignedURL, file, {
+            headers: {
+              'Content-Type': file.type,
+            }
+          })
+          .then(() => {
+            alert("upload: success!");
+            return true;
+          })
+          .catch((e) => {
+            alert(e);
+            return false;
+          });
+        })
+        .catch((e) => {
+          alert(e);
+          return false
+        });
       }
-
-      // Submitイベントをキャンセルする
-      return false;
     }
   }
 });
