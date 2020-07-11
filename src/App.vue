@@ -8,6 +8,7 @@
       <p>This is GitHub logo.</p>
       <img alt="Vue logo" src="./assets/logo2.png">
     </template>
+    <FileUpload></FileUpload>
     <LikeNumber :total-number="number" @my-click="incrementNumber" @my-click2="incrementNumber2"></LikeNumber>
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
@@ -17,6 +18,7 @@
 import Vue from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 import LikeNumber from './components/LikeNumber.vue';
+import FileUpload from './components/FileUpload.vue';
 
 export default Vue.extend({
   name: 'App',
@@ -28,7 +30,8 @@ export default Vue.extend({
   },
   components: {
     HelloWorld,
-    LikeNumber
+    LikeNumber,
+    FileUpload
   },
   methods: {
     incrementNumber(num: number, value1: string, value2: string, value3: string) {
