@@ -2,7 +2,7 @@
   <div>
     <input type="file" accept=".jpg,.jpeg,.png,.gif,.pdf" ref="fileSelector"/>
     <input type="submit" value="送信" @click="submitUpload"/>
-    <input type="submit" value="送信(分割)" @click="submitSplitUpload"/>
+    <input type="submit" value="送信(分割/5MB以上)" @click="submitSplitUpload"/>
   </div>
 </template>
 
@@ -68,11 +68,6 @@ export default Vue.extend({
       }
     },
     submitSplitUpload() {
-      console.log("File: " + window.File)
-      console.log("FileReader: " + window.FileReader)
-      console.log("FileList: " + window.FileList)
-      console.log("Blob: " + window.Blob)
-
       // ファイル要素から、選択されたファイルを取得する
       const files = (this.$refs.fileSelector as InstanceType<typeof HTMLInputElement>).files;
 
@@ -88,11 +83,8 @@ export default Vue.extend({
       // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
       axios.get('http://localhost:80/document/init-split-upload')
       .then((res) => {
-        console.log("log: 1.success");
         const uploadId: string = res.data.uploadId;
         const key: string = res.data.key;
-        console.log("log: 1.uploadId:" + uploadId);
-        console.log("log: 1.key:" + key);
         const partSize = 1024 * 1024 * 5; // 5MB/chunk
         const allSize = file.size;
         
@@ -103,7 +95,6 @@ export default Vue.extend({
             key: key,
             multipartUpload: multipartMap
           }).then(() => {
-            console.log("log: 3.success");
             alert("split upload success!!");
             return true;
           }).catch((e3) => {
@@ -134,16 +125,24 @@ export default Vue.extend({
             await this.getSendData(file, rangeStart, end, partNum)
             .then(async (value) => {
               const progress = end / file.size;
-              console.log(`今,${progress * 100}%だよ`);
+              console.log(`progress: ${progress * 100}%`);
 
-              const uploadParams = new URLSearchParams();
+              const uploadParams = new FormData();
               uploadParams.append('uploadId', uploadId);
               uploadParams.append('key', key);
               uploadParams.append('partNum', String(value.partNum));
-              uploadParams.append('sendData', String(value.byte));
-              await axios.post('http://localhost:80/document/split-upload', uploadParams)
+              uploadParams.append('file', value.byte)
+
+              await axios.post(
+                'http://localhost:80/document/split-upload',
+                uploadParams,
+                {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }
+              )
               .then((res) => {
-                console.log("log: 2.success/ETag:" + res.data.ETag);
                 multipartMap.Parts.push({
                   ETag: res.data.ETag,
                   PartNumber: res.data.PartNumber
@@ -159,38 +158,18 @@ export default Vue.extend({
               return false;
             });
           }
-          console.log("log: 2*.sendDataLoop inner finish!");
           return multipartMap;
         }
         getPageTitle(allSize, partSize, file, uploadId, key)
         .then((multipartMap) => {
-          console.log("log: 2*.sendDataLoop finish!");
           resolve(multipartMap);
         })
       })
     },
     getSendData(file: File, rangeStart: number, end: number, partNum: number) {
-      return new Promise((resolve: (value?: { byte: Uint8Array; partNum: number }) => void) => {
-        console.log("log: getSendData()");
-        const fileReader =  new FileReader();
-
-        fileReader.onload = (event) => {
-          console.log("log: getSendData().onload");
-          const data = event.target?.result;
-          let byte: Uint8Array;
-          if (data) {
-            if (data instanceof ArrayBuffer) {
-              byte = new Uint8Array(data);
-              resolve({ byte: byte, partNum: partNum });
-            } else {
-              byte = (new TextEncoder).encode(data);
-              resolve({ byte: byte, partNum: partNum });
-            }
-          }
-          fileReader.abort();
-        };
+      return new Promise((resolve: (value?: { byte: Blob; partNum: number }) => void) => {
         const splitedBlob = file.slice(rangeStart , end);
-        fileReader.readAsArrayBuffer(splitedBlob);
+        resolve({ byte: splitedBlob, partNum: partNum });
       })
     }
   }
