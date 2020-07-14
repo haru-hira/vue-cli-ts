@@ -1,8 +1,7 @@
 <template>
   <div>
     <input type="file" accept=".jpg,.jpeg,.png,.gif,.pdf" ref="fileSelector"/>
-    <input type="submit" value="送信" @click="submitUpload"/>
-    <input type="submit" value="分割送信(5MB以上)" @click="submitSplitUpload"/>
+    <input type="submit" value="送信(5MB以上は分割送信)" @click="submitUpload"/>
   </div>
 </template>
 
@@ -10,6 +9,7 @@
 import Vue from 'vue';
 import axios from 'axios';
 
+const partSize = 1024 * 1024 * 5; // 5MB/chunk
 export default Vue.extend({
   name: 'FileUpload',
   methods: {
@@ -26,90 +26,80 @@ export default Vue.extend({
       // 1つ目のファイルを取得する(非multiple)
       const file = files[0];
 
-      // readerのresultプロパティに、データURLとしてエンコードされたファイルデータを格納
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function() {
-        // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
-        axios.get('http://localhost:80/document/init-upload')
-        .then((res) => {
-          axios.put(res.data.s3PresignedURL, file, {
-            headers: {
-              'Content-Type': file.type,
-            }
-          }).then(() => {
-            axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
-              isSuccess: true,
-              fileName: file.name,
-              contentType: file.type
+      // 1. 非分割送信
+      if (file.size < partSize) {
+        // readerのresultプロパティに、データURLとしてエンコードされたファイルデータを格納
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+          // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
+          axios.get('http://localhost:80/document/init-upload')
+          .then((res) => {
+            axios.put(res.data.s3PresignedURL, file, {
+              headers: {
+                'Content-Type': file.type,
+              }
             }).then(() => {
-              alert("upload: success!");
-              return true;
+              axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
+                isSuccess: true,
+                fileName: file.name,
+                contentType: file.type
+              }).then(() => {
+                alert("upload: success!");
+                return true;
+              }).catch((e2) => {
+                // アップロードできたが通知に失敗した場合
+                alert(e2);
+                return false
+              });
             }).catch((e2) => {
-              // アップロードできたが通知に失敗した場合
-              alert(e2);
-              return false
+              axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
+                isSuccess: false
+              }).then(() => {
+                alert(e2);
+                return false;
+              }).catch((e3) => {
+                alert(e3);
+                return false
+              });
             });
-          }).catch((e2) => {
-            axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
-              isSuccess: false
+          }).catch((e1) => {
+            alert(e1);
+            return false
+          });
+        }
+      // 2. 分割送信
+      } else {
+        // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
+        axios.get('http://localhost:80/document/init-split-upload')
+        .then((res) => {
+          const uploadId: string = res.data.uploadId;
+          const key: string = res.data.key;
+          const allSize = file.size;
+          
+          this.sendDataLoop(allSize, partSize, file, uploadId, key)
+          .then((multipartMap) => {
+            axios.put('http://localhost:80/document/complete-split-upload/0', {
+              uploadId: uploadId,
+              key: key,
+              multipartUpload: multipartMap
             }).then(() => {
-              alert(e2);
-              return false;
+              alert("split upload success!!");
+              return true;
             }).catch((e3) => {
               alert(e3);
-              return false
+              return false;
             });
+          })
+          .catch((e2) => {
+            alert(e2);
+            return false;
           });
         }).catch((e1) => {
           alert(e1);
           return false
         });
       }
-    },
-    submitSplitUpload() {
-      // ファイル要素から、選択されたファイルを取得する
-      const files = (this.$refs.fileSelector as InstanceType<typeof HTMLInputElement>).files;
-
-      // ファイルが選択されていなかったら終了
-      if (!files || files.length === 0) {
-        console.log("ファイルが選択されていません");
-        return false;
-      }
-
-      // 1つ目のファイルを取得する(非multiple)
-      const file = files[0];
-
-      // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
-      axios.get('http://localhost:80/document/init-split-upload')
-      .then((res) => {
-        const uploadId: string = res.data.uploadId;
-        const key: string = res.data.key;
-        const partSize = 1024 * 1024 * 5; // 5MB/chunk
-        const allSize = file.size;
-        
-        this.sendDataLoop(allSize, partSize, file, uploadId, key)
-        .then((multipartMap) => {
-          axios.put('http://localhost:80/document/complete-split-upload/0', {
-            uploadId: uploadId,
-            key: key,
-            multipartUpload: multipartMap
-          }).then(() => {
-            alert("split upload success!!");
-            return true;
-          }).catch((e3) => {
-            alert(e3);
-            return false;
-          });
-        })
-        .catch((e2) => {
-          alert(e2);
-          return false;
-        });
-      }).catch((e1) => {
-        alert(e1);
-        return false
-      });
     },
     sendDataLoop(allSize: number, partSize: number, file: File, uploadId: string, key: string) {
       return new Promise((resolve: (value?: { Parts: { ETag: string; PartNumber: number }[] }) => void) => {
