@@ -14,16 +14,14 @@ const partSize = 1024 * 1024 * 5; // 5MB/chunk
 export default Vue.extend({
   name: 'FileUpload',
   methods: {
-    async submitUpload() {
+    submitUpload() {
       // ファイル要素から、選択されたファイルを取得する
       const files = (this.$refs.fileSelector as InstanceType<typeof HTMLInputElement>).files;
-
       // ファイルが選択されていなかったら終了
       if (!files || files.length === 0) {
         console.log("ファイルが選択されていません");
         return false;
       }
-
       // 1つ目のファイルを取得する(非multiple)
       const file = files[0];
 
@@ -48,10 +46,6 @@ export default Vue.extend({
               }).then(() => {
                 alert("upload: success!");
                 return true;
-              }).catch((e2) => {
-                // アップロードできたが通知に失敗した場合
-                alert(e2);
-                return false
               });
             }).catch((e2) => {
               axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
@@ -59,59 +53,31 @@ export default Vue.extend({
               }).then(() => {
                 alert(e2);
                 return false;
-              }).catch((e3) => {
-                alert(e3);
-                return false
               });
             });
-          }).catch((e1) => {
-            alert(e1);
+          }).catch((e) => {
+            alert(e);
             return false
           });
         }
       // 2. 分割送信
       } else {
-        const fileType = await FileType.fromBlob(file);
-        const contentType = fileType ? fileType.mime : 'application/octet-stream';
+        FileType.fromBlob(file)
+        .then((fileType) => {
+          return fileType ? fileType.mime : 'application/octet-stream';
+        }).then((contentType) => {
         // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
-        await axios.post('http://localhost:80/document/init-split-upload', {
-          contentType: contentType
-        })
-        .then((res) => {
+          return axios.post('http://localhost:80/document/init-split-upload', {
+            contentType: contentType
+          });
+        }).then(async (res) => {
           const uploadId: string = res.data.uploadId;
           const key: string = res.data.key;
           const allSize = file.size;
           
-          this.sendDataLoop(allSize, partSize, file, uploadId, key)
-          .then((multipartMap) => {
-            axios.put('http://localhost:80/document/complete-split-upload/0', {
-              uploadId: uploadId,
-              key: key,
-              multipartUpload: multipartMap
-            }).then(() => {
-              alert("split upload success!!");
-              return true;
-            }).catch((e3) => {
-              alert(e3);
-              return false;
-            });
-          })
-          .catch((e2) => {
-            alert(e2);
-            return false;
-          });
-        }).catch((e1) => {
-          alert(e1);
-          return false
-        });
-      }
-    },
-    sendDataLoop(allSize: number, partSize: number, file: File, uploadId: string, key: string) {
-      return new Promise((resolve: (value?: { Parts: { ETag: string; PartNumber: number }[] }) => void) => {
-        const getPageTitle = async (allSize: number, partSize: number, file: File, uploadId: string, key: string) => {
           const multipartMap: {
             Parts: { ETag: string; PartNumber: number }[];
-          } = { Parts: [] }
+          } = { Parts: [] };
           let partNum = 0;
           for (let rangeStart = 0; rangeStart < allSize; rangeStart += partSize) {
             partNum++;
@@ -131,8 +97,7 @@ export default Vue.extend({
                   'Content-Type': 'multipart/form-data'
                 }
               }
-            )
-            .then((res) => {
+            ).then((res) => {
               multipartMap.Parts.push({
                 ETag: res.data.ETag,
                 PartNumber: res.data.PartNumber
@@ -140,18 +105,24 @@ export default Vue.extend({
               const progress = end / file.size;
               console.log(`progress: ${progress * 100}%`);
               return;
-            }).catch((e3) => {
-              alert(e3);
-              return false;
             });
           }
-          return multipartMap;
-        }
-        getPageTitle(allSize, partSize, file, uploadId, key)
-        .then((multipartMap) => {
-          resolve(multipartMap);
-        })
-      })
+          return axios.put(
+            'http://localhost:80/document/complete-split-upload/0',
+            {
+              uploadId: uploadId,
+              key: key,
+              multipartUpload: multipartMap
+            }
+          );
+        }).then(() => {
+          alert("split upload success!!");
+          return true;
+        }).catch((e) => {
+          alert(e);
+          return false
+        });
+      }
     }
   }
 });
