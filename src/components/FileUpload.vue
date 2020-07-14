@@ -2,7 +2,7 @@
   <div>
     <input type="file" accept=".jpg,.jpeg,.png,.gif,.pdf" ref="fileSelector"/>
     <input type="submit" value="送信" @click="submitUpload"/>
-    <input type="submit" value="送信(分割/5MB以上)" @click="submitSplitUpload"/>
+    <input type="submit" value="分割送信(5MB以上)" @click="submitSplitUpload"/>
   </div>
 </template>
 
@@ -121,40 +121,32 @@ export default Vue.extend({
           for (let rangeStart = 0; rangeStart < allSize; rangeStart += partSize) {
             partNum++;
             const end = Math.min(rangeStart + partSize, allSize);
-            
-            await this.getSendData(file, rangeStart, end, partNum)
-            .then(async (value) => {
+            const splitFile = file.slice(rangeStart , end);
+            const uploadParams = new FormData();
+            uploadParams.append('uploadId', uploadId);
+            uploadParams.append('key', key);
+            uploadParams.append('partNum', String(partNum));
+            uploadParams.append('splitFile', splitFile);
+
+            await axios.post(
+              'http://localhost:80/document/split-upload',
+              uploadParams,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              }
+            )
+            .then((res) => {
+              multipartMap.Parts.push({
+                ETag: res.data.ETag,
+                PartNumber: res.data.PartNumber
+              });
               const progress = end / file.size;
               console.log(`progress: ${progress * 100}%`);
-
-              const uploadParams = new FormData();
-              uploadParams.append('uploadId', uploadId);
-              uploadParams.append('key', key);
-              uploadParams.append('partNum', String(value.partNum));
-              uploadParams.append('file', value.byte)
-
-              await axios.post(
-                'http://localhost:80/document/split-upload',
-                uploadParams,
-                {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-                }
-              )
-              .then((res) => {
-                multipartMap.Parts.push({
-                  ETag: res.data.ETag,
-                  PartNumber: res.data.PartNumber
-                });
-                return;
-              }).catch((e3) => {
-                alert(e3);
-                return false;
-              });
-            })
-            .catch((e2) => {
-              alert(e2);
+              return;
+            }).catch((e3) => {
+              alert(e3);
               return false;
             });
           }
@@ -164,12 +156,6 @@ export default Vue.extend({
         .then((multipartMap) => {
           resolve(multipartMap);
         })
-      })
-    },
-    getSendData(file: File, rangeStart: number, end: number, partNum: number) {
-      return new Promise((resolve: (value?: { byte: Blob; partNum: number }) => void) => {
-        const splitedBlob = file.slice(rangeStart , end);
-        resolve({ byte: splitedBlob, partNum: partNum });
       })
     }
   }
