@@ -8,12 +8,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import axios from 'axios';
+import FileType from 'file-type/browser';
 
 const partSize = 1024 * 1024 * 5; // 5MB/chunk
 export default Vue.extend({
   name: 'FileUpload',
   methods: {
-    submitUpload() {
+    async submitUpload() {
       // ファイル要素から、選択されたファイルを取得する
       const files = (this.$refs.fileSelector as InstanceType<typeof HTMLInputElement>).files;
 
@@ -70,8 +71,12 @@ export default Vue.extend({
         }
       // 2. 分割送信
       } else {
+        const fileType = await FileType.fromBlob(file);
+        const contentType = fileType ? fileType.mime : 'application/octet-stream';
         // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
-        axios.get('http://localhost:80/document/init-split-upload')
+        await axios.post('http://localhost:80/document/init-split-upload', {
+          contentType: contentType
+        })
         .then((res) => {
           const uploadId: string = res.data.uploadId;
           const key: string = res.data.key;
