@@ -27,39 +27,34 @@ export default Vue.extend({
 
       // 1. 非分割送信
       if (file.size < partSize) {
-        // readerのresultプロパティに、データURLとしてエンコードされたファイルデータを格納
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function() {
-          // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
-          axios.get('http://localhost:80/document/init-upload')
-          .then((res) => {
-            axios.put(res.data.s3PresignedURL, file, {
-              headers: {
-                'Content-Type': file.type,
-              }
+        // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
+        axios.get('http://localhost:80/document/init-upload')
+        .then((res) => {
+          axios.put(res.data.s3PresignedURL, file, {
+            headers: {
+              'Content-Type': file.type,
+            }
+          }).then(() => {
+            axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
+              isSuccess: true,
+              fileName: file.name,
+              contentType: file.type
             }).then(() => {
-              axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
-                isSuccess: true,
-                fileName: file.name,
-                contentType: file.type
-              }).then(() => {
-                alert("upload: success!");
-                return true;
-              });
-            }).catch((e2) => {
-              axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
-                isSuccess: false
-              }).then(() => {
-                alert(e2);
-                return false;
-              });
+              alert("upload: success!");
+              return true;
             });
-          }).catch((e) => {
-            alert(e);
-            return false
+          }).catch((e2) => {
+            axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
+              isSuccess: false
+            }).then(() => {
+              alert(e2);
+              return false;
+            });
           });
-        }
+        }).catch((e) => {
+          alert(e);
+          return false
+        });
       // 2. 分割送信
       } else {
         FileType.fromBlob(file)
