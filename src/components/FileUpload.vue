@@ -1,7 +1,13 @@
 <template>
   <div>
-    <input type="file" accept=".jpg,.jpeg,.png,.gif,.pdf" ref="fileSelector"/>
-    <input type="submit" value="送信(5MB以上は分割送信)" @click="submitUpload"/>
+    <div>
+      <input type="file" accept=".jpg,.jpeg,.png,.gif,.pdf" ref="fileSelector"/>
+      <input type="submit" value="送信(5MB以上は分割送信)" @click="submitUpload"/>
+    </div>
+    <div>
+      <input type="text" ref="idField"/>
+      <input type="submit" value="ダウンロード" @click="download"/>
+    </div>
   </div>
 </template>
 
@@ -40,7 +46,7 @@ export default Vue.extend({
               fileName: file.name,
               contentType: file.type
             }).then(() => {
-              alert("upload: success!");
+              alert("upload: success! id:" + res.data.id);
               return true;
             });
           }).catch((e2) => {
@@ -57,6 +63,7 @@ export default Vue.extend({
         });
       // 2. 分割送信
       } else {
+        let id = '';
         FileType.fromBlob(file)
         .then((fileType) => {
           return fileType ? fileType.mime : 'application/octet-stream';
@@ -69,6 +76,7 @@ export default Vue.extend({
           const uploadId: string = res.data.uploadId;
           const key: string = res.data.key;
           const allSize = file.size;
+          id = res.data.id;
           
           const multipartMap: {
             Parts: { ETag: string; PartNumber: number }[];
@@ -103,21 +111,50 @@ export default Vue.extend({
             });
           }
           return axios.put(
-            'http://localhost:80/document/complete-split-upload/0',
+            'http://localhost:80/document/complete-split-upload/' + id,
             {
+              isSuccess: true,
               uploadId: uploadId,
               key: key,
-              multipartUpload: multipartMap
+              multipartUpload: multipartMap,
+              fileName: file.name,
             }
           );
         }).then(() => {
-          alert("split upload success!!");
+          alert("split upload success!! id:" + id);
           return true;
         }).catch((e) => {
           alert(e);
           return false
         });
       }
+    },
+    download(): void {
+      const id = (this.$refs.idField as InstanceType<typeof HTMLInputElement>).value;
+      let fileName = 'unknown.file';
+      axios.get('http://localhost:80/document/' + id)
+      .then((res1) => {
+        fileName = res1.data.fileName;
+        return axios.get(res1.data.s3PresignedURL, {
+          responseType: 'blob',
+          headers: { Accept: res1.data.contentType },
+        });
+      }).then((res2) => {
+        if (window.navigator.msSaveOrOpenBlob) {
+          // for IE/Edge
+          window.navigator.msSaveOrOpenBlob(res2.data, fileName);
+        } else {
+          // for chrome/firefox
+          const url = URL.createObjectURL(new Blob([res2.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', fileName);
+          document.body.appendChild(link);
+          link.click();
+          URL.revokeObjectURL(url);
+        }
+        return;
+      });
     }
   }
 });
