@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <input type="file" accept=".jpg,.jpeg,.png,.gif,.pdf" ref="fileSelector"/>
+      <input type="file" ref="fileSelector"/>
       <input type="submit" value="送信(5MB以上は分割送信)" @click="submitUpload"/>
     </div>
     <div>
