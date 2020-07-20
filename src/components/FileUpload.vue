@@ -132,9 +132,11 @@ export default Vue.extend({
     download(): void {
       const id = (this.$refs.idField as InstanceType<typeof HTMLInputElement>).value;
       let fileName = 'unknown.file';
+      let contentType = '';
       axios.get('http://localhost:80/document/' + id)
       .then((res1) => {
         fileName = res1.data.fileName;
+        contentType = res1.data.contentType ? res1.data.contentType : 'application/octet-stream';
         return axios.get(res1.data.s3PresignedURL, {
           responseType: 'blob',
           headers: { Accept: res1.data.contentType },
@@ -145,7 +147,7 @@ export default Vue.extend({
           window.navigator.msSaveOrOpenBlob(res2.data, fileName);
         } else {
           // for chrome/firefox
-          const url = URL.createObjectURL(new Blob([res2.data]));
+          const url = URL.createObjectURL(new Blob([res2.data], { type: contentType }));
           const link = document.createElement('a');
           link.href = url;
           link.setAttribute('download', fileName);
