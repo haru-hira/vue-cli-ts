@@ -33,18 +33,19 @@ export default Vue.extend({
 
       // 1. 非分割送信
       if (file.size < partSize) {
+        const contentType = file.type ? file.type : 'application/octet-stream';
         // 前提1: Gitプロジェクト"nest-typeorm"をローカルで起動
         axios.get('http://localhost:80/document/init-upload')
         .then((res) => {
           axios.put(res.data.s3PresignedURL, file, {
             headers: {
-              'Content-Type': file.type,
+              'Content-Type': contentType,
             }
           }).then(() => {
             axios.put('http://localhost:80/document/complete-upload/' + res.data.id, {
               isSuccess: true,
               fileName: file.name,
-              contentType: file.type
+              contentType: contentType
             }).then(() => {
               alert("upload: success! id:" + res.data.id);
               return true;
