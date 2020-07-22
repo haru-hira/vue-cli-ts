@@ -38,6 +38,8 @@
     </v-app-bar>
 
     <v-main>
+      <FileUpload></FileUpload>
+      <LikeNumber :total-number="number" @my-click="incrementNumber" @my-click2="incrementNumber2"></LikeNumber>
       <HelloWorld/>
     </v-main>
   </v-app>
@@ -46,12 +48,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
+import LikeNumber from './components/LikeNumber.vue';
+import FileUpload from './components/FileUpload.vue';
 
 export default Vue.extend({
   name: 'App',
 
   components: {
     HelloWorld,
+    LikeNumber,
+    FileUpload
   },
 
   data: () => ({
