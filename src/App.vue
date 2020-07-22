@@ -61,7 +61,24 @@ export default Vue.extend({
   },
 
   data: () => ({
-    //
+    displayVueLogo: true,
+    number: 14
   }),
+
+  methods: {
+    incrementNumber(num: number, value1: string, value2: string, value3: string) {
+      console.log(value1);
+      console.log(value2);
+      console.log(value3);
+      this.number = num;
+    },
+    incrementNumber2(value: {
+        hoge: string;
+        piyo: string;
+        fuga: string;
+      }) {
+      console.log(value);
+    }
+  }
 });
 </script>
