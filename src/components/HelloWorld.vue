@@ -2,6 +2,12 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
+        <FileUpload></FileUpload>
+      </v-col>
+      <v-col cols="12">
+        <LikeNumber :total-number="number" @my-click="incrementNumber" @my-click2="incrementNumber2"></LikeNumber>
+      </v-col>
+      <v-col cols="12">
         <v-img
           :src="require('../assets/logo.svg')"
           class="my-3"
@@ -92,12 +98,20 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
+  import Vue from 'vue';
+  import FileUpload from './FileUpload.vue';
+  import LikeNumber from './LikeNumber.vue';
 
   export default Vue.extend({
     name: 'HelloWorld',
 
+    components: {
+      FileUpload,
+      LikeNumber
+    },
+
     data: () => ({
+      number: 14,
       ecosystem: [
         {
           text: 'vuetify-loader',
@@ -149,5 +163,21 @@
         },
       ],
     }),
+
+    methods: {
+      incrementNumber(num: number, value1: string, value2: string, value3: string) {
+        console.log(value1);
+        console.log(value2);
+        console.log(value3);
+        this.number = num;
+      },
+      incrementNumber2(value: {
+          hoge: string;
+          piyo: string;
+          fuga: string;
+        }) {
+        console.log(value);
+      }
+    }
   })
 </script>
