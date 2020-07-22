@@ -1,63 +1,61 @@
 <template>
-  <div id="app">
-    <template v-if="displayVueLogo">
-      <p>This is Vue logo.</p>
-      <img alt="Vue logo" src="./assets/logo.png">
-    </template>
-    <template v-else>
-      <p>This is GitHub logo.</p>
-      <img alt="Vue logo" src="./assets/logo2.png">
-    </template>
-    <FileUpload></FileUpload>
-    <LikeNumber :total-number="number" @my-click="incrementNumber" @my-click2="incrementNumber2"></LikeNumber>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          transition="scale-transition"
+          width="40"
+        />
+
+        <v-img
+          alt="Vuetify Name"
+          class="shrink mt-1 hidden-sm-and-down"
+          contain
+          min-width="100"
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          width="100"
+        />
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Latest Release</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <HelloWorld/>
+    </v-main>
+  </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
-import LikeNumber from './components/LikeNumber.vue';
-import FileUpload from './components/FileUpload.vue';
 
 export default Vue.extend({
   name: 'App',
-  data() {
-    return {
-      displayVueLogo: true,
-      number: 14
-    };
-  },
+
   components: {
     HelloWorld,
-    LikeNumber,
-    FileUpload
   },
-  methods: {
-    incrementNumber(num: number, value1: string, value2: string, value3: string) {
-      console.log(value1);
-      console.log(value2);
-      console.log(value3);
-      this.number = num;
-    },
-    incrementNumber2(value: {
-        hoge: string;
-        piyo: string;
-        fuga: string;
-      }) {
-      console.log(value);
-    }
-  }
+
+  data: () => ({
+    //
+  }),
 });
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
