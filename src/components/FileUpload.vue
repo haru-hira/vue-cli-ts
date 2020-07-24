@@ -1,14 +1,22 @@
 <template>
-  <div>
-    <div>
-      <input type="file" ref="fileSelector"/>
-      <input type="submit" value="送信(5MB以上は分割送信)" @click="submitUpload"/>
-    </div>
-    <div>
-      <input type="text" ref="idField"/>
-      <input type="submit" value="ダウンロード" @click="download"/>
-    </div>
-  </div>
+  <v-container class="blue lighten-5">
+    <v-row class="blue lighten-4" justify="center">
+      <v-col class="blue lighten-3">
+        <v-file-input label="File input" @change="getFileContent"></v-file-input>
+      </v-col>
+      <v-col class="blue lighten-2">
+        <v-btn @click="submitUpload">送信(5MB以上は分割送信)</v-btn>
+      </v-col>
+    </v-row>
+    <v-row class="blue lighten-3" justify="center">
+      <v-col class="blue lighten-2">
+        <v-text-field label="文書ID" v-model="selectedId"></v-text-field>
+      </v-col>
+      <v-col class="blue lighten-4">
+        <v-btn @click="download">ダウンロード</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -19,17 +27,24 @@ import FileType from 'file-type/browser';
 const partSize = 1024 * 1024 * 5; // 5MB/chunk
 export default Vue.extend({
   name: 'FileUpload',
+  data(): {
+    selectedFile: File | null;
+    selectedId: number | null;
+  } {
+    return {
+      selectedFile: null,
+      selectedId: null
+    }
+  },
   methods: {
+    getFileContent(file: File): void {
+      this.selectedFile = file;
+    },
     submitUpload() {
-      // ファイル要素から、選択されたファイルを取得する
-      const files = (this.$refs.fileSelector as InstanceType<typeof HTMLInputElement>).files;
-      // ファイルが選択されていなかったら終了
-      if (!files || files.length === 0) {
-        console.log("ファイルが選択されていません");
-        return false;
+      if (!this.selectedFile) {
+        return;
       }
-      // 1つ目のファイルを取得する(非multiple)
-      const file = files[0];
+      const file = this.selectedFile;
 
       // 1. 非分割送信
       if (file.size < partSize) {
@@ -131,7 +146,10 @@ export default Vue.extend({
       }
     },
     download(): void {
-      const id = (this.$refs.idField as InstanceType<typeof HTMLInputElement>).value;
+      if (!this.selectedId || this.selectedId < 1) {
+        return;
+      }
+      const id = this.selectedId;
       let fileName = 'unknown.file';
       let contentType = '';
       axios.get('http://localhost:80/document/' + id)
