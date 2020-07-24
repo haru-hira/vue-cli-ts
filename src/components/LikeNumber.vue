@@ -1,8 +1,14 @@
 <template>
-  <div>
-    <p>いいね({{ halfNumber }})</p>
-    <button @click="increment">+1</button>
-  </div>
+  <v-container>
+    <v-row justify="center">
+      <v-col>
+        <p>いいね({{ halfNumber }})</p>
+      </v-col>
+      <v-col>
+        <v-btn @click="increment">+1</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -38,7 +44,4 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-div {
-  border: 1px solid red;
-}
 </style>
