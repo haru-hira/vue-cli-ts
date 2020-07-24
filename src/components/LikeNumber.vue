@@ -1,10 +1,10 @@
 <template>
-  <v-container>
-    <v-row justify="center">
-      <v-col>
+  <v-container class="grey lighten-5">
+    <v-row class="grey lighten-4" justify="center">
+      <v-col class="grey lighten-3">
         <p>いいね({{ halfNumber }})</p>
       </v-col>
-      <v-col>
+      <v-col class="grey lighten-2">
         <v-btn @click="increment">+1</v-btn>
       </v-col>
     </v-row>
