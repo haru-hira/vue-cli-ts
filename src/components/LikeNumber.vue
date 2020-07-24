@@ -2,7 +2,7 @@
   <v-container class="grey lighten-2">
     <v-row class="grey lighten-3" justify="center">
       <v-col class="grey lighten-4">
-        <p>いいね({{ halfNumber }})</p>
+        <v-card outlined>いいね({{ halfNumber }})</v-card>
       </v-col>
       <v-col class="grey lighten-5">
         <v-btn @click="increment">+1</v-btn>
