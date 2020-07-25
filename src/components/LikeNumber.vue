@@ -8,6 +8,7 @@
         <v-btn @click="increment">+1</v-btn>
       </v-col>
     </v-row>
+    <v-divider></v-divider>
   </v-container>
 </template>
 
