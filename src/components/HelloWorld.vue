@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="text-center">
+    <v-row>
       <v-col cols="12">
         <FileUpload></FileUpload>
       </v-col>
@@ -16,7 +16,7 @@
         />
       </v-col>
 
-      <v-col class="mb-4">
+      <v-col class="mb-4 text-center">
         <h1 class="display-2 font-weight-bold mb-3">
           Welcome to Vuetify
         </h1>
@@ -32,7 +32,7 @@
       </v-col>
 
       <v-col
-        class="mb-5"
+        class="mb-5 text-center"
         cols="12"
       >
         <h2 class="headline font-weight-bold mb-3">
@@ -53,7 +53,7 @@
       </v-col>
 
       <v-col
-        class="mb-5"
+        class="mb-5 text-center"
         cols="12"
       >
         <h2 class="headline font-weight-bold mb-3">
@@ -74,7 +74,7 @@
       </v-col>
 
       <v-col
-        class="mb-5"
+        class="mb-5 text-center"
         cols="12"
       >
         <h2 class="headline font-weight-bold mb-3">

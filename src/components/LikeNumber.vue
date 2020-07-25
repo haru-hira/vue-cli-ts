@@ -1,6 +1,6 @@
 <template>
   <v-container class="grey lighten-2">
-    <v-row class="grey lighten-3" justify="center">
+    <v-row class="grey lighten-3" align="center">
       <v-col class="grey lighten-4">
         <v-card outlined>いいね({{ halfNumber }})</v-card>
       </v-col>

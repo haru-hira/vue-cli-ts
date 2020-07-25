@@ -1,6 +1,6 @@
 <template>
   <v-container class="blue lighten-2">
-    <v-row class="blue lighten-3" justify="center">
+    <v-row class="blue lighten-3"  align="center">
       <v-col class="blue lighten-4">
         <v-file-input label="File input" @change="getFileContent"></v-file-input>
       </v-col>
@@ -8,7 +8,7 @@
         <v-btn @click="submitUpload">送信(5MB以上は分割送信)</v-btn>
       </v-col>
     </v-row>
-    <v-row class="blue lighten-3" justify="center">
+    <v-row class="blue lighten-3"  align="center">
       <v-col class="blue lighten-5">
         <v-text-field label="文書ID" v-model="selectedId"></v-text-field>
       </v-col>
