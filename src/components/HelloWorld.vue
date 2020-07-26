@@ -8,6 +8,9 @@
         <LikeNumber :total-number="number" @my-click="incrementNumber" @my-click2="incrementNumber2"></LikeNumber>
       </v-col>
       <v-col cols="12">
+        <VuetifySample></VuetifySample>
+      </v-col>
+      <v-col cols="12">
         <v-img
           :src="require('../assets/logo.svg')"
           class="my-3"
@@ -101,13 +104,15 @@
   import Vue from 'vue';
   import FileUpload from './FileUpload.vue';
   import LikeNumber from './LikeNumber.vue';
+  import VuetifySample from './VuetifySample.vue';
 
   export default Vue.extend({
     name: 'HelloWorld',
 
     components: {
       FileUpload,
-      LikeNumber
+      LikeNumber,
+      VuetifySample
     },
 
     data: () => ({
