@@ -19,8 +19,9 @@
       </v-col>
       <v-col>
         <v-checkbox
-        v-model="checkbox"
-        label="checkbox"
+          v-model="checkbox"
+          color="subColor"
+          label="checkbox"
         ></v-checkbox>
         <v-radio-group v-model="radioGroup">
           <v-radio
@@ -28,10 +29,12 @@
             :key="n"
             :label="`Radio ${n}`"
             :value="n"
+            color="subColor"
           ></v-radio>
         </v-radio-group>
         <v-switch
           v-model="switch1"
+          color="subColor"
           label="switch"
         ></v-switch>
       </v-col>
