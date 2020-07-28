@@ -19,11 +19,10 @@
       </v-col>
       <v-col>
         <v-checkbox
-          v-model="checkbox"
           color="subColor"
           label="checkbox"
         ></v-checkbox>
-        <v-radio-group v-model="radioGroup">
+        <v-radio-group>
           <v-radio
             v-for="n in 3"
             :key="n"
@@ -33,7 +32,6 @@
           ></v-radio>
         </v-radio-group>
         <v-switch
-          v-model="switch1"
           color="subColor"
           label="switch"
         ></v-switch>
