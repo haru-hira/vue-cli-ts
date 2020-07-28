@@ -16,6 +16,13 @@
             {{ active ? 'Click Outside' : 'Click Me' }}
           </div>
         </v-card>
+        <v-btn class="sample-btn" color="primary">primary</v-btn>
+        <v-btn class="sample-btn" color="secondary">secondary</v-btn>
+        <v-btn class="sample-btn" color="accent">accent</v-btn>
+        <v-btn class="sample-btn" color="success">success</v-btn>
+        <v-btn class="sample-btn" color="warning">warning</v-btn>
+        <v-btn class="sample-btn" color="error">error</v-btn>
+        <v-btn class="sample-btn" color="info">info</v-btn>
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -39,4 +46,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.sample-btn {
+  margin: 16px;
+}
 </style>
