@@ -16,6 +16,7 @@
         />
 
         <v-img
+          id="app-bar-name"
           alt="Vuetify Name"
           class="shrink mt-1 hidden-sm-and-down"
           contain
@@ -23,6 +24,13 @@
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
         />
+
+        <v-switch
+          v-model="$vuetify.theme.dark"
+          hide-details
+          inset
+          label="Theme Dark"
+        ></v-switch>
       </div>
 
       <v-spacer></v-spacer>
@@ -59,3 +67,9 @@ export default Vue.extend({
   }),
 });
 </script>
+
+<style scoped>
+#app-bar-name {
+  margin-right: 16px;
+}
+</style>
