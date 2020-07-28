@@ -17,6 +17,24 @@
           </div>
         </v-card>
       </v-col>
+      <v-col>
+        <v-checkbox
+        v-model="checkbox"
+        label="checkbox"
+        ></v-checkbox>
+        <v-radio-group v-model="radioGroup">
+          <v-radio
+            v-for="n in 3"
+            :key="n"
+            :label="`Radio ${n}`"
+            :value="n"
+          ></v-radio>
+        </v-radio-group>
+        <v-switch
+          v-model="switch1"
+          label="switch"
+        ></v-switch>
+      </v-col>
     </v-row>
     <v-row>
       <v-btn class="sample-btn" color="primary">primary</v-btn>
