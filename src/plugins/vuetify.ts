@@ -5,17 +5,14 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
     theme: {
-        /* themes: {
+        themes: {
           light: {
-            primary: '#3f51b5',
-            secondary: '#b0bec5',
-            accent: '#8c9eff',
-            error: '#b71c1c',
+            subColor: '#64e3da',
           },
           dark: {
-            primary: '',
+            subColor: '#f57af3',
           },
-        }, */
+        },
         options: {
             customProperties: true,
         },
