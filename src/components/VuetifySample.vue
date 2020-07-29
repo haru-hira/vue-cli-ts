@@ -24,7 +24,7 @@
         ></v-checkbox>
         <v-radio-group>
           <v-radio
-            v-for="n in 3"
+            v-for="n in 2"
             :key="n"
             :label="`Radio ${n}`"
             :value="n"
@@ -35,6 +35,8 @@
           color="subColor"
           label="switch"
         ></v-switch>
+        <input id="sample-input" v-model="inputValue">
+        <p>value = {{ inputValue }}</p>
       </v-col>
     </v-row>
     <v-row>
@@ -68,6 +70,7 @@ export default Vue.extend({
   name: 'VuetifySample',
   data: () => ({
     active: false,
+    inputValue: '',
   }),
   methods: {
     onClickOutside () {
@@ -78,6 +81,15 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+#sample-input {
+  background-color: #ffffff;
+  border-style: solid;
+  border-color: #888888;
+  border-width: 1px;
+}
+#sample-input:focus {
+  outline: none;
+}
 .sample-btn {
   margin: 16px;
 }
