@@ -83,19 +83,17 @@ export default Vue.extend({
 <style scoped>
 #sample-input {
   background-color: #ffffff;
-  border-style: solid;
-  border-color: #888888;
-  border-width: 1px;
+  outline-style: solid;
+  outline-color: #888888;
+  outline-width: 1px;
 }
 #sample-input:hover {
   background-color: #eeeeee;
 }
 #sample-input:focus {
   background-color: #ffffff;
-  border-color: var(--v-subColor-base);
-  border-width: 2px;
-  margin: -1px;
-  outline: none;
+  outline-color: var(--v-subColor-base);
+  outline-width: 2px;
 }
 .sample-btn {
   margin: 16px;
