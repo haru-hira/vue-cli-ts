@@ -87,7 +87,11 @@ export default Vue.extend({
   border-color: #888888;
   border-width: 1px;
 }
+#sample-input:hover {
+  background-color: #eeeeee;
+}
 #sample-input:focus {
+  background-color: #ffffff;
   outline: none;
 }
 .sample-btn {
