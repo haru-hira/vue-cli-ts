@@ -92,6 +92,9 @@ export default Vue.extend({
 }
 #sample-input:focus {
   background-color: #ffffff;
+  border-color: var(--v-subColor-base);
+  border-width: 2px;
+  margin: -1px;
   outline: none;
 }
 .sample-btn {
