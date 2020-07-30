@@ -5,7 +5,7 @@
         <v-card outlined>いいね({{ halfNumber }})</v-card>
       </v-col>
       <v-col class="grey lighten-5">
-        <v-btn @click="increment">+1</v-btn>
+        <v-btn @click="increment" color="success">+1</v-btn>
       </v-col>
     </v-row>
     <v-divider></v-divider>

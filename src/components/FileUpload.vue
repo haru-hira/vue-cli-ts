@@ -5,7 +5,7 @@
         <v-file-input label="File input" @change="getFileContent"></v-file-input>
       </v-col>
       <v-col class="blue lighten-5">
-        <v-btn @click="submitUpload">送信(5MB以上は分割送信)</v-btn>
+        <v-btn @click="submitUpload" color="primary">送信(5MB以上は分割送信)</v-btn>
       </v-col>
     </v-row>
     <v-row class="blue lighten-3"  align="center">
@@ -13,7 +13,7 @@
         <v-text-field label="文書ID" v-model="selectedId"></v-text-field>
       </v-col>
       <v-col class="blue lighten-4">
-        <v-btn @click="download">ダウンロード</v-btn>
+        <v-btn @click="download" color="warning">ダウンロード</v-btn>
       </v-col>
     </v-row>
     <v-divider></v-divider>
