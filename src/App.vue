@@ -1,12 +1,19 @@
 <template>
   <v-app>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      dark
+      temporary
+    >
+    </v-navigation-drawer>
     <v-app-bar
       app
       color="primary"
       dark
     >
       <div class="d-flex align-center">
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
         <v-img
           alt="Vuetify Logo"
@@ -82,7 +89,8 @@ export default Vue.extend({
   },
 
   data: () => ({
-    alert: true
+    alert: true,
+    drawer: false
   }),
 });
 </script>
