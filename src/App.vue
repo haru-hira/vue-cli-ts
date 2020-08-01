@@ -46,6 +46,9 @@
     </v-app-bar>
 
     <v-main>
+      <v-alert type="success">
+         Serve: success
+      </v-alert>
       <HelloWorld/>
     </v-main>
   </v-app>
