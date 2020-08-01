@@ -6,6 +6,33 @@
       dark
       temporary
     >
+      <v-list-item>
+        <v-list-item-avatar>
+          <v-icon>mdi-account</v-icon>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title>You</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+  
+      <v-list dense>
+        <v-list-item
+          v-for="item in drawerItems"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
     <v-app-bar
       app
@@ -90,7 +117,11 @@ export default Vue.extend({
 
   data: () => ({
     alert: true,
-    drawer: false
+    drawer: false,
+    drawerItems:  [
+      { title: 'Home', icon: 'mdi-home' },
+      { title: 'About', icon: 'mdi-comment-question-outline' },
+    ],
   }),
 });
 </script>
