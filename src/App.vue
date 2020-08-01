@@ -46,9 +46,23 @@
     </v-app-bar>
 
     <v-main>
-      <v-alert type="success">
+      <v-alert
+        type="success"
+        dismissible
+        v-model="alert"
+      >
          Serve: success
       </v-alert>
+      <div id="alert-reset" class="text-center">
+        <v-btn
+          v-if="!alert"
+          color="deep-purple accent-4"
+          dark
+          @click="alert = true"
+        >
+          Reset
+        </v-btn>
+      </div>
       <HelloWorld/>
     </v-main>
   </v-app>
@@ -66,7 +80,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    //
+    alert: true
   }),
 });
 </script>
@@ -74,5 +88,8 @@ export default Vue.extend({
 <style scoped>
 #app-bar-name {
   margin-right: 16px;
+}
+#alert-reset {
+  margin: 19px;
 }
 </style>
