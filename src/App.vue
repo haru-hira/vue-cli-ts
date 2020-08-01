@@ -3,6 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       absolute
+      color="primary"
       dark
       temporary
     >
