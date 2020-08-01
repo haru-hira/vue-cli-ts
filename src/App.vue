@@ -6,6 +6,8 @@
       dark
     >
       <div class="d-flex align-center">
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
