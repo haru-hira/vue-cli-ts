@@ -16,6 +16,13 @@
             {{ active ? 'Click Outside' : 'Click Me' }}
           </div>
         </v-card>
+        <v-card>
+          <v-responsive :aspect-ratio="16/4">
+            <v-card-text>
+              aspect 16:4 
+            </v-card-text>
+          </v-responsive>
+        </v-card>
       </v-col>
       <v-col>
         <v-checkbox
