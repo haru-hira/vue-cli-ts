@@ -46,6 +46,34 @@
         <p>value = {{ inputValue }}</p>
       </v-col>
     </v-row>
+    <v-row justify="space-around">
+      <div>
+        <v-btn
+          class="mx-1"
+          color="primary"
+          @click="messages++"
+        >
+          Send Message
+        </v-btn>
+
+        <v-btn
+          class="mx-1"
+          color="error"
+          @click="messages = 0"
+        >
+          Clear Notifications
+        </v-btn>
+      </div>
+
+      <v-badge
+        :content="messages"
+        :value="messages"
+        color="green"
+        overlap
+      >
+        <v-icon large>mdi-email</v-icon>
+      </v-badge>
+    </v-row>
     <v-row>
       <v-btn class="sample-btn" color="primary">primary</v-btn>
       <v-btn class="sample-btn" color="secondary">secondary</v-btn>
@@ -78,6 +106,7 @@ export default Vue.extend({
   data: () => ({
     active: false,
     inputValue: '',
+    messages: 0,
   }),
   methods: {
     onClickOutside () {
