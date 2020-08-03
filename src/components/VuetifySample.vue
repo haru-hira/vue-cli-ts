@@ -71,6 +71,14 @@
         color="green"
         overlap
       >
+        <v-btn>Messages</v-btn>
+      </v-badge>
+      <v-badge
+        :content="messages"
+        :value="messages"
+        color="green"
+        overlap
+      >
         <v-icon large>mdi-email</v-icon>
       </v-badge>
     </v-row>
