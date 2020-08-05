@@ -104,6 +104,8 @@
     </v-main>
     <v-bottom-navigation
       v-model="bottomNav"
+      dark
+      shift
     >
       <v-btn value="recent">
         <span>Recent</span>
@@ -141,6 +143,7 @@ export default Vue.extend({
       { title: 'Home', icon: 'mdi-home' },
       { title: 'About', icon: 'mdi-comment-question-outline' },
     ],
+    bottomNav: 2,
   }),
 });
 </script>
