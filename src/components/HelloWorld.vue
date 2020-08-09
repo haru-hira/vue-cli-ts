@@ -2,6 +2,9 @@
   <v-container>
     <v-row>
       <v-col cols="12">
+        <v-breadcrumbs :items="breadcrumbItems"></v-breadcrumbs>
+      </v-col>
+      <v-col cols="12">
         <FileUpload></FileUpload>
       </v-col>
       <v-col cols="12">
@@ -117,6 +120,23 @@
 
     data: () => ({
       number: 14,
+      breadcrumbItems: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: 'breadcrumbs_dashboard',
+        },
+        {
+          text: 'Link 1',
+          disabled: false,
+          href: 'breadcrumbs_link_1',
+        },
+        {
+          text: 'Link 2',
+          disabled: true,
+          href: 'breadcrumbs_link_2',
+        },
+      ],
       ecosystem: [
         {
           text: 'vuetify-loader',
