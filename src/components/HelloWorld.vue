@@ -2,7 +2,54 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-breadcrumbs :items="breadcrumbItems"></v-breadcrumbs>
+        <v-row>
+          <v-breadcrumbs :items="breadcrumbItems"></v-breadcrumbs>
+        </v-row>
+        <v-row>
+          <v-speed-dial
+            v-model="fab"
+            top
+            left
+            direction="right"
+            transition="slide-x-transition"
+          >
+            <template v-slot:activator>
+              <v-btn
+                v-model="fab"
+                color="blue darken-2"
+                dark
+                fab
+              >
+                <v-icon v-if="fab">mdi-close</v-icon>
+                <v-icon v-else>mdi-account-circle</v-icon>
+              </v-btn>
+            </template>
+            <v-btn
+              fab
+              dark
+              small
+              color="green"
+            >
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn
+              fab
+              dark
+              small
+              color="indigo"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            <v-btn
+              fab
+              dark
+              small
+              color="red"
+            >
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </v-speed-dial>
+        </v-row>
       </v-col>
       <v-col cols="12">
         <FileUpload></FileUpload>
@@ -137,6 +184,7 @@
           href: 'breadcrumbs_link_2',
         },
       ],
+      fab: false,
       ecosystem: [
         {
           text: 'vuetify-loader',
