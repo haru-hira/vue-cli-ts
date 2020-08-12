@@ -88,6 +88,14 @@
           </v-avatar>
           Ranee
         </v-chip>
+        <v-chip
+          class="ma-2"
+          color="orange"
+          text-color="white"
+        >
+          Premium
+          <v-icon right>mdi-star</v-icon>
+        </v-chip>
       </v-col>
       <v-col cols="12">
         <FileUpload></FileUpload>
