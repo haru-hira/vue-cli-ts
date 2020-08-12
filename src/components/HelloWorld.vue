@@ -109,6 +109,18 @@
           </v-avatar>
           Years
         </v-chip>
+        <v-chip
+          class="ma-2"
+          close
+          color="teal"
+          text-color="white"
+          @click:close="closeChip"
+        >
+          <v-avatar left>
+            <v-icon>mdi-checkbox-marked-circle</v-icon>
+          </v-avatar>
+          Confirmed
+        </v-chip>
       </v-col>
       <v-col cols="12">
         <FileUpload></FileUpload>
@@ -323,6 +335,9 @@
           fuga: string;
         }) {
         console.log(value);
+      },
+      closeChip() {
+        alert('v-chip close clicked');
       }
     }
   })
