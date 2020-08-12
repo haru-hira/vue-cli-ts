@@ -78,6 +78,18 @@
         </v-row>
       </v-col>
       <v-col cols="12">
+        <v-chip
+          class="ma-2"
+          color="indigo"
+          text-color="white"
+        >
+          <v-avatar left>
+            <v-icon>mdi-account-circle</v-icon>
+          </v-avatar>
+          Ranee
+        </v-chip>
+      </v-col>
+      <v-col cols="12">
         <FileUpload></FileUpload>
       </v-col>
       <v-col cols="12">
