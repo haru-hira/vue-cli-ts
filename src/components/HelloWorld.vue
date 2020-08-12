@@ -96,6 +96,19 @@
           Premium
           <v-icon right>mdi-star</v-icon>
         </v-chip>
+        <v-chip
+          class="ma-2"
+          color="green"
+          text-color="white"
+        >
+          <v-avatar
+            left
+            class="green darken-4"
+          >
+            1
+          </v-avatar>
+          Years
+        </v-chip>
       </v-col>
       <v-col cols="12">
         <FileUpload></FileUpload>
