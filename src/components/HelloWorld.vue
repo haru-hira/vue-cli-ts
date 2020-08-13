@@ -134,6 +134,14 @@
           </v-avatar>
           Confirmed
         </v-chip>
+        <v-chip
+          class="ma-2"
+          color="success"
+          outlined
+        >
+          <v-icon left>mdi-server-plus</v-icon>
+          Server Status
+        </v-chip>
       </v-col>
       <v-col cols="12">
         <FileUpload></FileUpload>
