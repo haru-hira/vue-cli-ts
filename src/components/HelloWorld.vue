@@ -142,6 +142,15 @@
           <v-icon left>mdi-server-plus</v-icon>
           Server Status
         </v-chip>
+        <v-chip
+          class="ma-2"
+          color="primary"
+          outlined
+          pill
+        >
+          User Account
+          <v-icon right>mdi-account-outline</v-icon>
+        </v-chip>
       </v-col>
       <v-col cols="12">
         <FileUpload></FileUpload>
