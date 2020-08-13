@@ -151,6 +151,16 @@
           User Account
           <v-icon right>mdi-account-outline</v-icon>
         </v-chip>
+        <v-chip
+          class="ma-2"
+          close
+          color="indigo darken-3"
+          outlined
+          @click:close="closeChip"
+        >
+          <v-icon left>mdi-fire</v-icon>
+          New Posts Available
+        </v-chip>
       </v-col>
       <v-col cols="12">
         <FileUpload></FileUpload>
