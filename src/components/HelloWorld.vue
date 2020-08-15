@@ -7,6 +7,7 @@
           <v-dialog
             v-model="dialog"
             persistent
+            scrollable
             width="500"
           >
             <template v-slot:activator="{ on, attrs }">
@@ -25,7 +26,13 @@
                 Privacy Policy
               </v-card-title>
       
-              <v-card-text>
+              <v-card-text style="height: 300px;">
+                <v-radio-group v-model="dialogm1" column>
+                  <v-radio label="Bahamas, The" value="bahamas"></v-radio>
+                  <v-radio label="Bahrain" value="bahrain"></v-radio>
+                  <v-radio label="Bangladesh" value="bangladesh"></v-radio>
+                  <v-radio label="Barbados" value="barbados"></v-radio>
+                </v-radio-group>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </v-card-text>
       
