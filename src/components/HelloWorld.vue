@@ -27,6 +27,12 @@
               </v-card-title>
       
               <v-card-text style="height: 300px;">
+                <v-btn
+                  color="primary"
+                  @click="subDialog = true"
+                >
+                  Sub Dialog
+                </v-btn>
                 <v-radio-group v-model="dialogm1" column>
                   <v-radio label="Bahamas, The" value="bahamas"></v-radio>
                   <v-radio label="Bahrain" value="bahrain"></v-radio>
@@ -46,6 +52,25 @@
                   @click="dialog = false"
                 >
                   I accept
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog
+            v-model="subDialog"
+            max-width="500px"
+          >
+            <v-card>
+              <v-card-title>
+                <span>Sub Dialog</span>
+              </v-card-title>
+              <v-card-actions>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="subDialog = false"
+                >
+                  Close
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -342,6 +367,7 @@
         },
       ],
       dialog: false,
+      subDialog: false,
       fab: false,
       slideColors: [
         'indigo',
