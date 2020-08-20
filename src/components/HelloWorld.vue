@@ -149,7 +149,9 @@
         </v-row>
       </v-col>
       <v-col cols="12">
-        <v-expansion-panels>
+        <v-expansion-panels
+          accordion
+        >
           <v-expansion-panel
             v-for="(item, i) in 3"
             :key="i"
