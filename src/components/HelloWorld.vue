@@ -151,6 +151,7 @@
       <v-col cols="12">
         <v-expansion-panels
           accordion
+          hover
         >
           <v-expansion-panel
             v-for="(item, i) in 3"
