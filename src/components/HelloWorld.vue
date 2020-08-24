@@ -152,6 +152,7 @@
         <v-expansion-panels
           accordion
           hover
+          popout
         >
           <v-expansion-panel
             v-for="(item, i) in 3"
