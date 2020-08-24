@@ -153,6 +153,7 @@
           accordion
           hover
           popout
+          focusable
         >
           <v-expansion-panel
             v-for="(item, i) in 3"
