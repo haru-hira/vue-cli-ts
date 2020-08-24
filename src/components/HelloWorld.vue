@@ -157,6 +157,7 @@
           <v-expansion-panel
             v-for="(item, i) in 3"
             :key="i"
+            :disabled="i === 2"
           >
             <v-expansion-panel-header>Item</v-expansion-panel-header>
             <v-expansion-panel-content>
