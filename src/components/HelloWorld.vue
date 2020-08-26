@@ -154,6 +154,7 @@
           hover
           popout
           focusable
+          flat
         >
           <v-expansion-panel
             v-for="(item, i) in 3"
