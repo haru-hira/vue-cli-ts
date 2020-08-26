@@ -152,7 +152,7 @@
         <v-expansion-panels
           accordion
           hover
-          popout
+          inset
           focusable
           flat
         >
