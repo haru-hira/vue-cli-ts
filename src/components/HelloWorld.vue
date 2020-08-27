@@ -152,12 +152,10 @@
         <v-expansion-panels
           accordion
           hover
-          inset
           focusable
-          flat
         >
           <v-expansion-panel
-            v-for="(item, i) in 3"
+            v-for="(item, i) in 4"
             :key="i"
             :disabled="i === 2"
           >
