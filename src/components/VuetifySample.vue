@@ -2,6 +2,9 @@
   <v-container>
     <v-row class="grey lighten-3" align="center">
       <v-col class="grey lighten-4">
+        <v-hover
+          v-slot:default="{ hover }"
+        >
         <v-card
           v-click-outside="onClickOutside"
           :color="active ? 'primary' : undefined"
@@ -11,11 +14,13 @@
           rounded="xl"
           width="128"
           @click="active = true"
+          :elevation="hover ? 12 : 2"
         >
           <div class="text-h6 text-md-h6 fill-height d-flex align-center justify-center">
             {{ active ? 'Click Outside' : 'Click Me' }}
           </div>
         </v-card>
+        </v-hover>
         <v-card>
           <v-responsive :aspect-ratio="16/4">
             <v-card-text>
