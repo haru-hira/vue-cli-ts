@@ -266,7 +266,9 @@
           class="my-3"
           contain
           height="200"
-        />
+        >
+          <div class="fill-height repeating-gradient"></div>
+        </v-img>
       </v-col>
 
       <v-col class="mb-4 text-center">
@@ -473,3 +475,15 @@
     }
   })
 </script>
+
+<style scoped>
+.repeating-gradient {
+  background-image: repeating-linear-gradient(
+    -45deg,
+  rgba(255,0,0,.25),
+  rgba(255,0,0,.25) 5px,
+  rgba(0,0,255,.25) 5px,
+  rgba(0,0,255,.25) 10px
+  );
+}
+</style>
