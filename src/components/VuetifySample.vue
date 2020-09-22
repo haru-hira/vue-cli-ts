@@ -2,97 +2,61 @@
   <v-container>
     <v-row class="grey lighten-3" align="center">
       <v-col class="grey lighten-4">
-        <v-hover
-          v-slot:default="{ hover }"
-        >
-        <v-card
-          v-click-outside="onClickOutside"
-          :color="active ? 'primary' : undefined"
-          :dark="active"
-          class="mx-auto"
-          height="128"
-          rounded="xl"
-          width="128"
-          @click="active = true"
-          :elevation="hover ? 12 : 2"
-        >
-          <div class="text-h6 text-md-h6 fill-height d-flex align-center justify-center">
-            {{ active ? 'Click Outside' : 'Click Me' }}
-          </div>
-        </v-card>
+        <v-hover v-slot:default="{ hover }">
+          <v-card
+            v-click-outside="onClickOutside"
+            :color="active ? 'primary' : undefined"
+            :dark="active"
+            class="mx-auto"
+            height="128"
+            rounded="xl"
+            width="128"
+            @click="active = true"
+            :elevation="hover ? 12 : 2"
+          >
+            <div class="text-h6 text-md-h6 fill-height d-flex align-center justify-center">
+              {{ active ? 'Click Outside' : 'Click Me' }}
+            </div>
+          </v-card>
         </v-hover>
         <v-card>
-          <v-responsive :aspect-ratio="16/4">
+          <v-responsive :aspect-ratio="16 / 4">
             <v-card-text>
-              aspect 16:4 
+              aspect 16:4
             </v-card-text>
           </v-responsive>
         </v-card>
       </v-col>
       <v-col>
-        <v-checkbox
-          color="subColor"
-          label="checkbox"
-        ></v-checkbox>
+        <v-checkbox color="subColor" label="checkbox"></v-checkbox>
         <v-radio-group>
-          <v-radio
-            v-for="n in 2"
-            :key="n"
-            :label="`Radio ${n}`"
-            :value="n"
-            color="subColor"
-          ></v-radio>
+          <v-radio v-for="n in 2" :key="n" :label="`Radio ${n}`" :value="n" color="subColor"></v-radio>
         </v-radio-group>
-        <v-switch
-          color="subColor"
-          label="switch"
-        ></v-switch>
-        <input id="sample-input" v-model="inputValue">
+        <v-switch color="subColor" label="switch"></v-switch>
+        <input id="sample-input" v-model="inputValue" />
         <p>value = {{ inputValue }}</p>
       </v-col>
     </v-row>
     <v-row justify="space-around">
       <div>
-        <v-btn
-          class="mx-1"
-          color="primary"
-          @click="messages++"
-        >
+        <v-btn class="mx-1" color="primary" @click="messages++">
           Send Message
         </v-btn>
 
-        <v-btn
-          class="mx-1"
-          color="error"
-          @click="messages = 0"
-        >
+        <v-btn class="mx-1" color="error" @click="messages = 0">
           Clear Notifications
         </v-btn>
       </div>
 
-      <v-badge
-        :content="messages"
-        :value="messages"
-        color="green"
-        overlap
-      >
+      <v-badge :content="messages" :value="messages" color="green" overlap>
         <v-btn>Messages</v-btn>
       </v-badge>
-      <v-badge
-        :content="messages"
-        :value="messages"
-        color="green"
-        overlap
-      >
+      <v-badge :content="messages" :value="messages" color="green" overlap>
         <v-icon large>mdi-email</v-icon>
       </v-badge>
     </v-row>
     <v-row>
-      <v-btn
-        color="blue"
-        dark
-        @click="sheet = !sheet"
-      >
+      <v-btn color="blue" dark @click="sheet = !sheet">
         Open v-model
       </v-btn>
     </v-row>
@@ -119,12 +83,7 @@
     <v-divider></v-divider>
     <v-bottom-sheet v-model="sheet">
       <v-sheet class="text-center" height="200px">
-        <v-btn
-          class="mt-6"
-          outlined
-          color="red"
-          @click="sheet = !sheet"
-        >close</v-btn>
+        <v-btn class="mt-6" outlined color="red" @click="sheet = !sheet">close</v-btn>
         <div class="py-3">This is a bottom sheet using the controlled by v-model instead of activator</div>
       </v-sheet>
     </v-bottom-sheet>
@@ -143,10 +102,10 @@ export default Vue.extend({
     sheet: false,
   }),
   methods: {
-    onClickOutside () {
-      this.active = false
+    onClickOutside() {
+      this.active = false;
     },
-  }
+  },
 });
 </script>
 
