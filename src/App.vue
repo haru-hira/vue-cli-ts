@@ -1,12 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      color="primary"
-      dark
-      temporary
-    >
+    <v-navigation-drawer v-model="drawer" absolute color="primary" dark temporary>
       <v-list-item>
         <v-list-item-avatar>
           <v-icon>mdi-account</v-icon>
@@ -18,13 +12,9 @@
       </v-list-item>
 
       <v-divider></v-divider>
-  
+
       <v-list dense>
-        <v-list-item
-          v-for="item in drawerItems"
-          :key="item.title"
-          link
-        >
+        <v-list-item v-for="item in drawerItems" :key="item.title" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -35,11 +25,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
@@ -62,51 +48,29 @@
           width="100"
         />
 
-        <v-switch
-          v-model="$vuetify.theme.dark"
-          hide-details
-          inset
-          label="Theme Dark"
-        ></v-switch>
+        <v-switch v-model="$vuetify.theme.dark" hide-details inset label="Theme Dark"></v-switch>
       </div>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
+      <v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-main>
-      <v-alert
-        type="success"
-        dismissible
-        v-model="alert"
-      >
-         Serve: success
+      <v-alert type="success" dismissible v-model="alert">
+        Serve: success
       </v-alert>
       <div id="alert-reset" class="text-center">
-        <v-btn
-          v-if="!alert"
-          color="deep-purple accent-4"
-          dark
-          @click="alert = true"
-        >
+        <v-btn v-if="!alert" color="deep-purple accent-4" dark @click="alert = true">
           Reset
         </v-btn>
       </div>
-      <HelloWorld/>
+      <HelloWorld />
     </v-main>
-    <v-bottom-navigation
-      v-model="bottomNav"
-      dark
-      shift
-    >
+    <v-bottom-navigation v-model="bottomNav" dark shift>
       <v-divider vertical></v-divider>
       <v-btn value="recent">
         <span>Recent</span>
@@ -124,35 +88,25 @@
       </v-btn>
       <v-divider vertical></v-divider>
     </v-bottom-navigation>
-    <v-footer
-      dark
-      padless
-    >
-      <v-card
-        flat
-        tile
-        class="indigo lighten-1 white--text text-center"
-      >
+    <v-footer dark padless>
+      <v-card flat tile class="indigo lighten-1 white--text text-center">
         <v-card-text>
-          <v-btn
-            v-for="icon in icons"
-            :key="icon"
-            class="mx-4 white--text"
-            icon
-          >
+          <v-btn v-for="icon in icons" :key="icon" class="mx-4 white--text" icon>
             <v-icon size="24px">{{ icon }}</v-icon>
           </v-btn>
         </v-card-text>
-  
+
         <v-card-text class="white--text pt-0">
-          Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+          Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent
+          ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet
+          dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum
+          ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci
+          varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
         </v-card-text>
-  
+
         <v-divider></v-divider>
-  
-        <v-card-text class="white--text">
-          {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-        </v-card-text>
+
+        <v-card-text class="white--text"> {{ new Date().getFullYear() }} — <strong>Vuetify</strong> </v-card-text>
       </v-card>
     </v-footer>
   </v-app>
@@ -172,17 +126,12 @@ export default Vue.extend({
   data: () => ({
     alert: true,
     drawer: false,
-    drawerItems:  [
+    drawerItems: [
       { title: 'Home', icon: 'mdi-home' },
       { title: 'About', icon: 'mdi-comment-question-outline' },
     ],
     bottomNav: 2,
-    icons: [
-      'mdi-facebook',
-      'mdi-twitter',
-      'mdi-linkedin',
-      'mdi-instagram',
-    ],
+    icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram'],
   }),
 });
 </script>
